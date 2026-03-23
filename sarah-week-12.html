@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Week 12 — Sarah's Pregnancy Journey</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--sage:#7C9A7E;--sage-light:#A8C2AA;--sage-pale:#EBF2EB;--cream:#FAF7F2;--forest:#2C3E2D;--gold:#C9A96E;--gold-light:#E8D5A8;--gold-pale:#F5EDD8;--text-dark:#1A2B1B;--text-mid:#4A5E4B;--text-muted:#7A8E7B;--border:rgba(124,154,126,0.18)}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-dark);min-height:100vh;overflow-x:hidden}
+.hero{background:var(--forest);min-height:52vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3.5rem 2rem 4rem;text-align:center;position:relative;overflow:hidden}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:2rem;padding:.4rem 1.1rem;font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--sage-light);margin-bottom:1.8rem}
+.hero-week{font-family:'Playfair Display',serif;font-size:clamp(4rem,12vw,7rem);font-weight:500;color:white;line-height:1}
+.hero-week span{color:var(--gold)}
+.hero-name{font-family:'Playfair Display',serif;font-size:clamp(1.1rem,3vw,1.5rem);font-style:italic;color:rgba(255,255,255,.7);margin:.6rem 0 1.5rem}
+.hero-size{display:inline-flex;align-items:center;gap:.6rem;background:var(--gold);color:var(--forest);border-radius:2rem;padding:.55rem 1.4rem;font-size:.85rem;font-weight:500}
+.hero-sub{margin-top:1.2rem;font-size:.78rem;font-weight:300;color:rgba(255,255,255,.45);letter-spacing:.06em}
+.milestone-banner{background:var(--gold);padding:1rem 2rem;text-align:center}
+.milestone-text{font-family:'Playfair Display',serif;font-size:1rem;color:var(--forest);font-weight:500}
+.progress-wrap{background:white;padding:1.8rem 2rem;border-bottom:1px solid var(--border)}
+.progress-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem}
+.progress-title{font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
+.progress-count{font-family:'Playfair Display',serif;font-size:.9rem;color:var(--forest)}
+.progress-track{height:6px;background:var(--sage-pale);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--sage),var(--gold));border-radius:3px;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+.main{max-width:760px;margin:0 auto;padding:2.5rem 1.5rem 5rem}
+.card{background:white;border:1px solid var(--border);border-radius:1.5rem;padding:2rem;margin-bottom:1.2rem}
+.card-header{display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem}
+.card-icon{width:40px;height:40px;background:var(--sage-pale);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.card-title{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--forest)}
+.card-subtitle{font-size:.75rem;color:var(--text-muted);margin-top:.1rem}
+.baby-card{background:var(--forest)}
+.baby-card .card-icon{background:rgba(255,255,255,.1)}
+.baby-card .card-title{color:white}
+.baby-card .card-subtitle{color:var(--sage-light)}
+.baby-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1.2rem}
+.baby-stat{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:1rem;padding:.9rem 1rem;text-align:center}
+.baby-stat-label{font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--sage-light);margin-bottom:.3rem}
+.baby-stat-value{font-family:'Playfair Display',serif;font-size:1.1rem;color:white}
+.baby-desc{font-size:.88rem;font-weight:300;line-height:1.8;color:rgba(255,255,255,.75)}
+.meal-grid{display:flex;flex-direction:column;gap:.6rem}
+.meal-row{display:flex;align-items:flex-start;gap:.8rem;padding:.7rem 0;border-bottom:1px solid var(--border)}
+.meal-row:last-child{border-bottom:none}
+.meal-day{font-size:.7rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--sage);min-width:32px;padding-top:.1rem}
+.meal-name{font-size:.88rem;color:var(--text-dark);margin-bottom:.15rem}
+.meal-detail{font-size:.75rem;font-weight:300;color:var(--text-muted);line-height:1.5}
+.symptom-list{display:flex;flex-direction:column;gap:.8rem}
+.symptom-item{background:var(--sage-pale);border-radius:1rem;padding:1rem 1.2rem;display:flex;gap:.8rem;align-items:flex-start}
+.symptom-dot{width:8px;height:8px;background:var(--sage);border-radius:50%;margin-top:.35rem;flex-shrink:0}
+.symptom-name{font-size:.88rem;font-weight:500;color:var(--forest);margin-bottom:.25rem}
+.symptom-tip{font-size:.8rem;font-weight:300;color:var(--text-mid);line-height:1.6}
+.partner-card{background:var(--gold-pale);border-color:var(--gold-light)}
+.partner-card .card-icon{background:var(--gold-light)}
+.partner-greeting{font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;color:var(--forest);margin-bottom:.8rem}
+.partner-body{font-size:.88rem;font-weight:300;line-height:1.8;color:var(--text-mid)}
+.partner-sign{margin-top:1rem;font-family:'Playfair Display',serif;font-size:.85rem;font-style:italic;color:var(--text-muted)}
+.affirmation-card{background:var(--forest);text-align:center;padding:2.5rem 2rem}
+.affirmation-card .card-icon{background:rgba(255,255,255,.1);margin:0 auto 1.2rem}
+.affirmation-quote{font-family:'Playfair Display',serif;font-size:clamp(1.1rem,3vw,1.4rem);font-style:italic;color:white;line-height:1.65;margin-bottom:1rem}
+.footer{text-align:center;padding:2rem 1.5rem 4rem;border-top:1px solid var(--border)}
+.footer-logo{font-family:'Playfair Display',serif;font-size:.9rem;color:var(--text-muted);margin-bottom:.4rem}
+.footer-logo span{color:var(--gold)}
+@media(max-width:600px){.main{padding:1.5rem 1rem 4rem}.card{padding:1.5rem}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-badge">✦ Pregnancy Journey Companion</div>
+  <div class="hero-week">Week <span>12</span></div>
+  <div class="hero-name">Good morning, Sarah ✨</div>
+  <div class="hero-size">🌿 Your baby is the size of lime</div>
+  <div class="hero-sub">28 weeks remaining · First Trimester</div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-label">
+    <span class="progress-title">Your Journey Progress</span>
+    <span class="progress-count">Week 12 of 40</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="pf" style="width:0%"></div></div>
+</div>
+<div class="main">
+  <div class="card baby-card">
+    <div class="card-header"><div class="card-icon">🌱</div><div><div class="card-title">Your Baby This Week</div><div class="card-subtitle">Development at Week 12</div></div></div>
+    <div class="baby-stat-grid">
+      <div class="baby-stat"><div class="baby-stat-label">Size</div><div class="baby-stat-value">lime</div></div>
+      <div class="baby-stat"><div class="baby-stat-label">Length</div><div class="baby-stat-value">5.4 cm</div></div>
+      <div class="baby-stat"><div class="baby-stat-label">Weight</div><div class="baby-stat-value">14 grams</div></div>
+      <div class="baby-stat"><div class="baby-stat-label">Trimester</div><div class="baby-stat-value">First</div></div>
+    </div>
+    <div class="baby-desc">Your baby is starting to develop a unique set of fingerprints this week. The facial features continue to refine, including the little nose and lips. Tiny hair follicles are also beginning to form, making your baby look even more adorable!</div>
+  </div>
+  <div class="card"><div class="card-header"><div class="card-icon">🥗</div><div><div class="card-title">Your 7-Day Meal Plan</div><div class="card-subtitle">Tailored to your dietary needs</div></div></div><div class="meal-grid">
+    <div class="meal-row">
+      <div class="meal-day">MON</div>
+      <div class="meal-items">
+        <div class="meal-name">Grilled chicken salad with mixed greens, avocado, and nuts</div>
+        <div class="meal-detail">Packed with protein and healthy fats to keep your energy up.</div>
+      </div>
+    </div>
+    <div class="meal-row">
+      <div class="meal-day">TUE</div>
+      <div class="meal-items">
+        <div class="meal-name">Quinoa bowl with black beans, corn, diced tomatoes, and lime</div>
+        <div class="meal-detail">Rich in fiber and nutrients to support your growth.</div>
+      </div>
+    </div>
+    <div class="meal-row">
+      <div class="meal-day">WED</div>
+      <div class="meal-items">
+        <div class="meal-name">Oatmeal topped with fresh berries and a drizzle of honey</div>
+        <div class="meal-detail">Great source of complex carbohydrates for lasting energy.</div>
+      </div>
+    </div>
+    <div class="meal-row">
+      <div class="meal-day">THU</div>
+      <div class="meal-items">
+        <div class="meal-name">Baked salmon with sweet potatoes and steamed broccoli</div>
+        <div class="meal-detail">High in Omega-3 fatty acids that are crucial for baby's brain development.</div>
+      </div>
+    </div>
+    <div class="meal-row">
+      <div class="meal-day">FRI</div>
+      <div class="meal-items">
+        <div class="meal-name">Turkey and vegetable stir-fry with brown rice</div>
+        <div class="meal-detail">Provides iron and a variety of vitamins essential for your health.</div>
+      </div>
+    </div>
+    <div class="meal-row">
+      <div class="meal-day">SAT</div>
+      <div class="meal-items">
+        <div class="meal-name">Smoothie with spinach, banana, Greek yogurt, and almond milk</div>
+        <div class="meal-detail">A perfect way to pack in nutrients and stay hydrated.</div>
+      </div>
+    </div>
+    <div class="meal-row">
+      <div class="meal-day">SUN</div>
+      <div class="meal-items">
+        <div class="meal-name">Whole grain pasta with marinara sauce and a side salad</div>
+        <div class="meal-detail">Carbohydrates for energy and fiber to keep digestion smooth.</div>
+      </div>
+    </div></div></div>
+  <div class="card"><div class="card-header"><div class="card-icon">💚</div><div><div class="card-title">3 Symptoms This Week</div><div class="card-subtitle">What is normal and how to handle it</div></div></div><div class="symptom-list">
+    <div class="symptom-item">
+      <div class="symptom-dot"></div>
+      <div>
+        <div class="symptom-name">Fatigue</div>
+        <div class="symptom-tip">Take short naps during the day to recharge when you can.</div>
+      </div>
+    </div>
+    <div class="symptom-item">
+      <div class="symptom-dot"></div>
+      <div>
+        <div class="symptom-name">Nausea</div>
+        <div class="symptom-tip">Try eating small, frequent meals and ginger tea to soothe your stomach.</div>
+      </div>
+    </div>
+    <div class="symptom-item">
+      <div class="symptom-dot"></div>
+      <div>
+        <div class="symptom-name">Mood swings</div>
+        <div class="symptom-tip">Practice deep breathing exercises or meditation to help calm your emotions.</div>
+      </div>
+    </div></div></div>
+  <div class="card partner-card"><div class="card-header"><div class="card-icon">💌</div><div><div class="card-title">A Note for John</div><div class="card-subtitle">From your care team, with love</div></div></div><div class="partner-greeting">Dear John,</div><div class="partner-body">John, this week is special as Sarah's baby is developing its tiny features! Your support is vital, so encourage her to rest when she needs to and remind her how amazing she is. Small gestures can make a big difference in her comfort and happiness.</div><div class="partner-sign">With warmth, your care team 🌿</div></div>
+  <div class="card affirmation-card"><div class="card-icon">✨</div><div class="affirmation-quote">You are strong, capable, and doing an amazing job nurturing new life!</div></div>
+</div>
+<div class="footer"><div class="footer-logo">Pregnancy Journey <span>Companion</span></div></div>
+<script>setTimeout(()=>{const f=document.getElementById('pf');if(f)f.style.width='30%'},600)</script>
+</body></html>
